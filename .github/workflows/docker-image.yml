@@ -20,7 +20,7 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: petclinic-backend-img-cicd
-          IMAGE_TAG: ${{ variables.IMAGE_TAG }}
+          IMAGE_TAG: $IMAGE_TAG
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
