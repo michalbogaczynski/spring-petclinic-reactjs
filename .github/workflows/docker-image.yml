@@ -16,11 +16,18 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build, tag, and push docker image to Amazon ECR
-        env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: petclinic-backend-img-cicd
-          IMAGE_TAG: petclinic-backend-img
-        run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+   - name: Build Docker image
+      run: docker build -t your-image-name .
+
+    - name: Get branch name
+      id: branch-name
+      run: echo ::set-output name=branch::${GITHUB_REF#refs/heads/}
+
+    - name: Tag Docker image with branch name
+      run: |
+        docker tag your-image-name:latest your-aws-account-id.dkr.ecr.your-aws-region.amazonaws.com/your-repository-name:${{ steps.branch-name.outputs.branch }}
+
+    - name: Push Docker image to ECR
+      run: docker push your-aws-account-id.dkr.ecr.your-aws-region.amazonaws.com/your-repository-name:${{ steps.branch-name.outputs.branch }}
+      env:
+        AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
