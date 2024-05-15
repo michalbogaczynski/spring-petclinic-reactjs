@@ -1,5 +1,8 @@
 name: ecr_docker_deployment
-on: [push]
+on:
+  push: {}
+  workflow_dispatch:
+
 jobs:
   docker_cicd:
     runs-on: ubuntu-latest
