@@ -32,9 +32,9 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" == "push" ];
           then
-            IMAGE_TAG = "${{ github.sha }}"
+            IMAGE_TAG="${{ github.sha }}"
           else
-            IMAGE_TAG = "${{ env.IMAGE_TAG }}"
+            IMAGE_TAG="${{ env.IMAGE_TAG }}"
           fi
           
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .        
