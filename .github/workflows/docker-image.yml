@@ -30,7 +30,7 @@ jobs:
           REPOSITORY: petclinic-backend-img-cicd
           IMAGE_TAG: ${{ github.event.inputs.tag }}
         run: |
-          if ["${{ github.event_name }}" == "push" ];
+          if [["${{ github.event_name }}" == "push" ]];
           then
             IMAGE_TAG = "${{github.sha}}"
           else
