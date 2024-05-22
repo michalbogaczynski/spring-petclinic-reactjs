@@ -34,14 +34,12 @@ jobs:
           REPOSITORY: petclinic-frontend-img-cicd
           INPUT_TAG: ${{ github.event.inputs.tag }}
         run: |
-          if [ "${{ github.event_name }}" == "push" ]; then
-            IMAGE_TAG="${GITHUB_SHA}"
+          if [ "${{ github.event_name }}" == "push" ];
+          then
+            IMAGE_TAG="${{ github.sha }}"
           else
-            IMAGE_TAG="${INPUT_TAG}"
+            IMAGE_TAG="${{ env.IMAGE_TAG }}"
           fi
           
-          # Build the Docker image with the specified Dockerfile path and context
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f spring-petclinic-reactjs/client/Dockerfile spring-petclinic-reactjs/client
-
-          # Push the Docker image to Amazon ECR
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG ./client     
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
