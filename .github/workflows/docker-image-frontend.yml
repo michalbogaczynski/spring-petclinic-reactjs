@@ -1,9 +1,6 @@
-name: ecr_docker_deployment
-
+name: ecr_docker_deployment_frontend
 on:
-  push: 
-    branches:
-      - main  # Możesz zmienić na odpowiednią gałąź
+  push: {}  
   workflow_dispatch:  
     inputs:
       tag:
@@ -16,14 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
-
+          
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
@@ -32,7 +28,7 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: petclinic-frontend-img-cicd
-          INPUT_TAG: ${{ github.event.inputs.tag }}
+          IMAGE_TAG: ${{ github.event.inputs.tag }}
         run: |
           if [ "${{ github.event_name }}" == "push" ];
           then
