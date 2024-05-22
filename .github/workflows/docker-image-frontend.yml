@@ -28,14 +28,7 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: petclinic-frontend-img-cicd
-          IMAGE_TAG: ${{ github.event.inputs.tag }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          if [ "${{ github.event_name }}" == "push" ];
-          then
-            IMAGE_TAG="${{ github.sha }}"
-          else
-            IMAGE_TAG="${{ env.IMAGE_TAG }}"
-          fi
-             
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f spring-petclinic-reactjs/client          
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f spring-petclinic-reactjs/client
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
