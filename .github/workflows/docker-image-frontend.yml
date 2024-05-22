@@ -37,5 +37,5 @@ jobs:
             IMAGE_TAG="${{ env.IMAGE_TAG }}"
           fi
              
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f spring-petclinic-reactjs/client/Dockerfile spring-petclinic-reactjs/client
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f spring-petclinic-reactjs/client          
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
